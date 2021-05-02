@@ -55,13 +55,13 @@ export default function ChatBox() {
                 },
                 {
                     headers: {
-                        token: 'eyJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl91c2VyX2lkIjoxLCJsYXN0X25hbWUiOiJyYW1hZGFuIiwiZXhwaXJhdGlvbiI6MTAwMDAwMDAwMDAwMDAwMCwiZmlyc3RfbmFtZSI6InlvdXNlZiIsImVtYWlsIjoieW91c2VmQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoieW91c2VmIn0.D41pTHsd6cllp1uzeGgVND2vuVF03wKjEeTtaT6ULbg'
+                        token: 'eyJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl9lbWFpbCI6Im1hbmdhM0Bob3RtYWlsLmNvbSIsInRva2VuX3VzZXJfaWQiOiI5IiwidG9rZW5fbmFtZSI6Im1hbmdhIiwidG9rZW5fYml0X3JhdGUiOiIxMjgiLCJleHBpcmF0aW9uIjoxNjE5OTM5MTM3NzQwLCJ0b2tlbl91c2VybmFtZSI6Im1hbmdhMyIsInRva2VuX3R5cGUiOiJ1c2VyIiwidG9rZW5faXNfcHJlbWl1bSI6ImYifQ.e5bQ__mBTOnJI5IGBfGHWdZNkxEh_KzO9X7ahZJ38q0'
                     }
                 }
             )
                 .then(response => {
                     console.log(`ChatID: ${response.data.data}`);
-                    setWs(new WebSocket(`ws://127.0.0.1:9090/chat?chatID=${response.data.data}`));
+                    setWs(new WebSocket(`ws://127.0.0.1:9090/chat?chatID=${response.data.data}?token=eyJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl9lbWFpbCI6Im1hbmdhM0Bob3RtYWlsLmNvbSIsInRva2VuX3VzZXJfaWQiOiI5IiwidG9rZW5fbmFtZSI6Im1hbmdhIiwidG9rZW5fYml0X3JhdGUiOiIxMjgiLCJleHBpcmF0aW9uIjoxNjE5OTM5MTM3NzQwLCJ0b2tlbl91c2VybmFtZSI6Im1hbmdhMyIsInRva2VuX3R5cGUiOiJ1c2VyIiwidG9rZW5faXNfcHJlbWl1bSI6ImYifQ.e5bQ__mBTOnJI5IGBfGHWdZNkxEh_KzO9X7ahZJ38q0`));
                     setConnected(true);
                 })
                 .catch(err => {
@@ -71,7 +71,7 @@ export default function ChatBox() {
     }
 
     const handleConnect = async () => {
-        setWs(new WebSocket(`ws://127.0.0.1:9090/chat?chatID=${text}`));
+        setWs(new WebSocket(`ws://127.0.0.1:9090/chat?chatID=${text}?token=eyJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl9lbWFpbCI6Im1hbmdhM0Bob3RtYWlsLmNvbSIsInRva2VuX3VzZXJfaWQiOiI5IiwidG9rZW5fbmFtZSI6Im1hbmdhIiwidG9rZW5fYml0X3JhdGUiOiIxMjgiLCJleHBpcmF0aW9uIjoxNjE5OTM5MTM3NzQwLCJ0b2tlbl91c2VybmFtZSI6Im1hbmdhMyIsInRva2VuX3R5cGUiOiJ1c2VyIiwidG9rZW5faXNfcHJlbWl1bSI6ImYifQ.e5bQ__mBTOnJI5IGBfGHWdZNkxEh_KzO9X7ahZJ38q0`));
         setConnected(true);
         const data = {
             queue: 'testing-rabbit',
@@ -83,7 +83,7 @@ export default function ChatBox() {
             data,
             {
                 headers: {
-                    token: 'eyJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl91c2VyX2lkIjoxLCJsYXN0X25hbWUiOiJyYW1hZGFuIiwiZXhwaXJhdGlvbiI6MTAwMDAwMDAwMDAwMDAwMCwiZmlyc3RfbmFtZSI6InlvdXNlZiIsImVtYWlsIjoieW91c2VmQGdtYWlsLmNvbSIsInVzZXJuYW1lIjoieW91c2VmIn0.D41pTHsd6cllp1uzeGgVND2vuVF03wKjEeTtaT6ULbg'
+                    token: 'eyJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl9lbWFpbCI6Im1hbmdhM0Bob3RtYWlsLmNvbSIsInRva2VuX3VzZXJfaWQiOiI5IiwidG9rZW5fbmFtZSI6Im1hbmdhIiwidG9rZW5fYml0X3JhdGUiOiIxMjgiLCJleHBpcmF0aW9uIjoxNjE5OTM5MTM3NzQwLCJ0b2tlbl91c2VybmFtZSI6Im1hbmdhMyIsInRva2VuX3R5cGUiOiJ1c2VyIiwidG9rZW5faXNfcHJlbWl1bSI6ImYifQ.e5bQ__mBTOnJI5IGBfGHWdZNkxEh_KzO9X7ahZJ38q0'
                 }
             }
         )
@@ -111,11 +111,14 @@ export default function ChatBox() {
         if (connected) {
             messagesRef.current.scrollIntoView();
             ws.onmessage = (msg) => {
-                // console.log(msg)
+                console.log('message hehe');
+                console.log(msg)
                 let newMessages = [...messages];
+                msg = JSON.parse(msg.data);
                 newMessages.push({
-                    "text": msg.data,
-                    "timeStamp": Date.parse(new Date())
+                    senderName: msg.senderName,
+                    text : msg.text,
+                    timeStamp: Date.parse(new Date())
                 })
                 newMessages.sort((a, b) => {
                     if (a.timeStamp < b.timeStamp) {
@@ -143,7 +146,7 @@ export default function ChatBox() {
                             messages.map((msg, key) => {
                                 return (
                                     <div key={key} style={{marginTop: '1vw', marginLeft: '1vw', marginBottom: '1vw'}}>
-                                        <Typography style={{display: 'inline-block', marginRight: '0.5vw', fontWeight: 'bold'}}>Anon: </Typography>
+                                        <Typography style={{display: 'inline-block', marginRight: '0.5vw', fontWeight: 'bold'}}>{msg.senderName}: </Typography>
                                         <Typography style={{display: 'inline-block' }} variant="body1">
                                             {msg.text}
                                         </Typography>
