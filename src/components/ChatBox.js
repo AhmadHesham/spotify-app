@@ -10,18 +10,22 @@ import axios from 'axios';
 import firebase from 'firebase'
 
 // Your web app's Firebase configuration
-var firebaseConfig = {
+const firebaseConfig = {
     apiKey: "AIzaSyBOHwXYFskyv3Ck_4y1q-0Xj07eaCoOynA",
     authDomain: "spotify-server-4e6f2.firebaseapp.com",
+    databaseURL: "https://spotify-server-4e6f2-default-rtdb.europe-west1.firebasedatabase.app",
     projectId: "spotify-server-4e6f2",
     storageBucket: "spotify-server-4e6f2.appspot.com",
     messagingSenderId: "144439452035",
-    appId: "1:144439452035:web:3072f27a06c33c05a856b6",
-};
+    appId: "1:144439452035:web:3072f27a06c33c05a856b6"
+  };
 // Initialize Firebase
-firebase.initializeApp(firebaseConfig);
-
-const messaging = firebase.messaging();
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+const messaging = firebase.messaging(firebaseApp);
+messaging.onMessage(payload => {
+    // console.log('ayo fam xdd');
+    console.log(`Payload: `, payload);
+})
 
 const useStyles = makeStyles({
     card: {
@@ -48,7 +52,7 @@ export default function ChatBox() {
     const classes = useStyles();
     const [registrationToken, setRegisterationToken] = React.useState('');
     const [init, setInit] = React.useState(true);
-    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl9lbWFpbCI6InRvbmlAaG90bWFpbC5jb20iLCJ0b2tlbl91c2VyX2lkIjoiMiIsInRva2VuX25hbWUiOiJwb25wb24iLCJ0b2tlbl9iaXRfcmF0ZSI6IjEyOCIsImV4cGlyYXRpb24iOjE2MjAxNjQ4NjM1MTQsInRva2VuX3VzZXJuYW1lIjoidG9uaSIsInRva2VuX3R5cGUiOiJ1c2VyIiwidG9rZW5faXNfcHJlbWl1bSI6ImYifQ.movoDP18AO85FGxXszL1dBXdswts6m4zZiZZWPumIfo'
+    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl9lbWFpbCI6Im1hbmdhQGhvdG1haWwuY29tIiwidG9rZW5fdXNlcl9pZCI6IjMiLCJ0b2tlbl9uYW1lIjoiTWFuZ29uZWVzZSIsInRva2VuX2JpdF9yYXRlIjoiMTI4IiwiZXhwaXJhdGlvbiI6MTYyMDIwMzg1NjY5OSwidG9rZW5fdXNlcm5hbWUiOiJtYW5nYSIsInRva2VuX3R5cGUiOiJ1c2VyIiwidG9rZW5faXNfcHJlbWl1bSI6ImYifQ.2MCiuV7VM3aXOBk6yFxZX6Gz__tNfw33DZtmnbAEDqU'
 
     const [messages, setMessages] = React.useState([]);
 
@@ -94,7 +98,7 @@ export default function ChatBox() {
         const data = {
             chatID: text
         }
-        console.log('wtf')
+        // console.log('wtf')
         await axios.post(
             'http://127.0.0.1:8080/testing-rabbit/get-chat-logs',
             data,
@@ -105,13 +109,13 @@ export default function ChatBox() {
             }
         )
             .then(res => {
-                console.log('a7a'); 
+                // console.log('a7a'); 
                 // console.log('mangoneese');
                 // setMessages
                 // console.log(JSON.parse(res.data.data));
                 // console.log(Date.parse(JSON.parse(res.data.data)[0]["sentDate"]));
                 let logs = JSON.parse(res.data.data)
-                console.log(logs);
+                // console.log(logs);
                 logs.map((log) => {
                     log["timeStamp"] = Date.parse(log["sentDate"]);
                 })
@@ -219,10 +223,6 @@ export default function ChatBox() {
                 console.log(err);
             })
 
-        messaging.onMessage(payload => {
-            // console.log('ayo fam xdd');
-            console.log(`Payload: ${payload}`);
-        })
     }, [connected, messages, registrationToken])
 
     return (
