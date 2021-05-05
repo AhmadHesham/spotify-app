@@ -13,6 +13,9 @@ firebase.initializeApp({
 const messaging = firebase.messaging();
 messaging.onBackgroundMessage((payload) => {
   console.log('[firebase-messaging-sw.js] Received background message ', payload);
+  // window.alert(`${payload.data.senderName}: ${payload.data.text}`);
+  // let notif = new Audio('./notif.mp3');
+  // notif.play();
 });
 
 
