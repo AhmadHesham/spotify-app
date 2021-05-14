@@ -53,7 +53,7 @@ export default function ChatBox() {
     const classes = useStyles();
     const [registrationToken, setRegisterationToken] = React.useState('');
     const [init, setInit] = React.useState(true);
-    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl9lbWFpbCI6Im1hbmdhQGhvdG1haWwuY29tIiwidG9rZW5fdXNlcl9pZCI6IjMiLCJ0b2tlbl9uYW1lIjoiTWFuZ29uZWVzZSIsInRva2VuX2JpdF9yYXRlIjoiMTI4IiwiZXhwaXJhdGlvbiI6MTYyMDI3NDkwMDE2MSwidG9rZW5fdXNlcm5hbWUiOiJtYW5nYSIsInRva2VuX3R5cGUiOiJ1c2VyIiwidG9rZW5faXNfcHJlbWl1bSI6ImYifQ.1wr2KYDcBZn1L1C32Gv3JBKrfbqKG9di2nWxHX0skaY'
+    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJ0b2tlbl9lbWFpbCI6Im1hbmdhQGhvdG1haWwuY29tIiwidG9rZW5fdXNlcl9pZCI6IjMiLCJ0b2tlbl9uYW1lIjoiTWFuZ29uZWVzZSIsInRva2VuX2JpdF9yYXRlIjoiMTI4IiwiZXhwaXJhdGlvbiI6MTYyMTA0Njg4NzI0NiwidG9rZW5fdXNlcm5hbWUiOiJtYW5nYSIsInRva2VuX3R5cGUiOiJ1c2VyIiwidG9rZW5faXNfcHJlbWl1bSI6ImYifQ.Cct7pVRSaSLnSs4Wm5xFMVar6D_a4OXSCSNeL-I8vpE'
     const [messages, setMessages] = React.useState([]);
     const [open, setOpen] = React.useState(false);
     const [notif, setNotif] = React.useState({});
@@ -69,7 +69,8 @@ export default function ChatBox() {
         setText(e.target.value);
     }
 
-    const handleSend = () => {
+    const handleSend = (e) => {
+        e.preventDefault()
         if (connected) {
             ws.send(text);
         }
@@ -78,9 +79,9 @@ export default function ChatBox() {
     const handleCreate = async () => {
         if (!connected) {
             await axios.post(
-                'http://127.0.0.1:8080/testing-rabbit/create-chat',
+                'http://127.0.0.1:8080/chat/create-chat',
                 {
-                    "queue": "testing-rabbit",
+                    "queue": "chat",
                     "method": "create-chat",
                     "participants": "1;5;20"
                 },
@@ -109,7 +110,7 @@ export default function ChatBox() {
         }
         // console.log('wtf')
         await axios.post(
-            'http://127.0.0.1:8080/testing-rabbit/get-chat-logs',
+            'http://127.0.0.1:8080/chat/get-chat-logs',
             data,
             {
                 headers: {
@@ -141,21 +142,34 @@ export default function ChatBox() {
 
     const handleInit = async () => {
 
-        await axios.post(
-            'http://127.0.0.1:8080/testing-rabbit/set-registration-token/',
-            {
+        //     await axios.post(
+        //         'http://127.0.0.1:8080/auth/set-registration-token/',
+        //         {
+        //             "registrationToken": registrationToken
+        //         },
+        //         {
+        //             headers: {
+        //                 token: token
+        //             }
+        //         }
+        //     ).then(res => {
+        //         setInit(false);
+        //         console.log(res);
+        //     })
+        //         .catch(err => console.log(err))
+        await axios({
+            method: 'POST',
+            url: 'http://127.0.0.1:8080/auth/set-registration-token/',
+            data: {
                 "registrationToken": registrationToken
             },
-            {
-                headers: {
-                    token: token
-                }
+            headers: {
+                token: token
             }
-        ).then(res => {
+        }).then(res => {
             setInit(false);
             console.log(res);
         })
-            .catch(err => console.log(err))
     }
 
     const handleClose = () => {
@@ -184,7 +198,7 @@ export default function ChatBox() {
 
         // const register = async () => {
         //     await axios.post(
-        //         'http://127.0.0.1:8080/testing-rabbit/set-registration-token/',
+        //         'http://127.0.0.1:8080/chat/set-registration-token/',
         //         {
         //             "registrationToken": registrationToken
         //         },
@@ -240,6 +254,7 @@ export default function ChatBox() {
 
     return (
         <div style={{ height: "70%", width: "50%", display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+            {console.log(messages)}
             <Card className={classes.card}>
                 <CardContent style={{ height: "75%", width: '100%', justifyContent: 'center', alignItems: 'center', display: 'flex', flexDirection: 'column' }}>
                     <Typography variant="h6" style={{ marginBottom: '0.5vw' }}>
