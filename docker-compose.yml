@@ -5,8 +5,8 @@ services:
     build:
       # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
       context: .
-      dockerfile: Dockerfile
-    environment:
+#      dockerfile: Dockerfile
+    environmesnt:
       DB_USERNAME: root
       DB_PASSWORD: root
       DB_NAME: sample
@@ -30,7 +30,7 @@ services:
     build:
       # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
       context: .
-      dockerfile: Dockerfile
+#      dockerfile: Dockerfile
     environment:
       DB_USERNAME: root
       DB_PASSWORD: root
@@ -55,7 +55,7 @@ services:
     build:
         # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
       context: .
-      dockerfile: Dockerfile
+#      dockerfile: Dockerfile
     environment:
       DB_USERNAME: root
       DB_PASSWORD: root
@@ -80,7 +80,7 @@ services:
     build:
           # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
       context: .
-      dockerfile: Dockerfile
+#      dockerfile: Dockerfile
     environment:
       DB_USERNAME: root
       DB_PASSWORD: root
@@ -105,7 +105,7 @@ services:
     build:
       # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
       context: .
-      dockerfile: Dockerfile
+#      dockerfile: Dockerfile
     environment:
       DB_USERNAME: root
       DB_PASSWORD: root
