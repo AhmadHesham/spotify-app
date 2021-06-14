@@ -30,33 +30,7 @@
             <version>0.9.1</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
-        <dependency>
-            <groupId>javax.xml.bind</groupId>
-            <artifactId>jaxb-api</artifactId>
-            <version>2.3.0</version>
-        </dependency>
 
-        <!-- https://mvnrepository.com/artifact/org.mindrot/jbcrypt -->
-        <dependency>
-            <groupId>org.mindrot</groupId>
-            <artifactId>jbcrypt</artifactId>
-            <version>0.4</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.cloudinary/cloudinary-core -->
-        <dependency>
-            <groupId>com.cloudinary</groupId>
-            <artifactId>cloudinary-core</artifactId>
-            <version>1.29.0</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.cloudinary/cloudinary-http44 -->
-        <dependency>
-            <groupId>com.cloudinary</groupId>
-            <artifactId>cloudinary-http44</artifactId>
-            <version>1.29.0</version>
-        </dependency>
 
         <dependency>
             <groupId>redis.clients</groupId>
@@ -128,12 +102,7 @@
             <version>2.14.1</version>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
-        <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
-        </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
         <dependency>
