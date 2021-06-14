@@ -22,3 +22,132 @@ services:
     expose:
       - '3000'
     entrypoint: sh ./entrypoints/account.sh
+    depends_on:
+      - db
+    networks:
+      - rabbitmq_go_net
+  auth:
+    build:
+      # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_NAME: sample
+      DB_DATABASE: sample
+      DB_PORT: 3306
+      DB_HOST: db
+      # BUNDLE_PATH: /bundle
+      # - bundle:/bundle
+    ports:
+      - '8080:8080'
+    #    depends_on:
+    #      - db
+    expose:
+      - '3000'
+    entrypoint: sh ./entrypoints/auth.sh
+    depends_on:
+      - db
+    networks:
+      - rabbitmq_go_net
+  art:
+    build:
+        # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_NAME: sample
+      DB_DATABASE: sample
+      DB_PORT: 3306
+      DB_HOST: db
+        # BUNDLE_PATH: /bundle
+        # - bundle:/bundle
+    ports:
+      - '8080:8080'
+      #    depends_on:
+      #      - db
+    expose:
+        - '3000'
+    entrypoint: sh ./entrypoints/art.sh
+    depends_on:
+      - db
+    networks:
+      - rabbitmq_go_net
+  playlist:
+    build:
+          # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_NAME: sample
+      DB_DATABASE: sample
+      DB_PORT: 3306
+      DB_HOST: db
+          # BUNDLE_PATH: /bundle
+          # - bundle:/bundle
+    ports:
+      - '8080:8080'
+        #    depends_on:
+        #      - db
+    expose:
+        - '3000'
+    entrypoint: sh ./entrypoints/playlist.sh
+    depends_on:
+      - db
+    networks:
+      - rabbitmq_go_net
+  chat:
+    build:
+      # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_NAME: sample
+      DB_DATABASE: sample
+      DB_PORT: 3306
+      DB_HOST: db
+      # BUNDLE_PATH: /bundle
+      # - bundle:/bundle
+    ports:
+      - '8080:8080'
+      #    depends_on:
+      #      - db
+    expose:
+      - '3000'
+    entrypoint: sh ./entrypoints/chat.sh
+    depends_on:
+      - db
+    networks:
+      - rabbitmq_go_net
+
+  db:
+    image: postgres
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: 'rabbitmq'
+    ports:
+      - 5672:5672
+      - 15672:15672
+    volumes:
+      - ~/.docker-conf/rabbitmq/data/:/var/lib/rabbitmq/
+      - ~/.docker-conf/rabbitmq/log/:/var/log/rabbitmq
+    networks:
+      - rabbitmq_go_net
+
+networks:
+  rabbitmq_go_net:
+    driver: bridge
