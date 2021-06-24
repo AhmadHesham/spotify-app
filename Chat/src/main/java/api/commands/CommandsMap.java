@@ -7,39 +7,25 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 public class CommandsMap {
-    private static ConcurrentMap<String, Class<?>> cmdMapChat;
+    private static ConcurrentMap<String, Class<?>> cmdMapChat = new ConcurrentHashMap<>(); 
 
-
-
-    public static void initialize() {
-        //Start of Chat CommandsMap
-        cmdMapChat = new ConcurrentHashMap<>();
-        cmdMapChat.put("create-chat", CreateChat.class);
-        cmdMapChat.put("log-text", LogText.class);
-        cmdMapChat.put("get-chat-logs", ChatLog.class);
-        cmdMapChat.put("add-participant", AddParticipant.class);
-        cmdMapChat.put("send-chat-notification", ChatNotification.class);
-        cmdMapChat.put("get-chat-notification", GetNotifications.class);
-        cmdMapChat.put("set-registration-token", SetRegistrationToken.class);
-        //End of Chat CommandsMap
-
-        ConcurrentMap<String, Class<?>> testMap  = new ConcurrentHashMap<>();
+    public static void initialize() throws Exception {
         Properties prop = new Properties();
-        try{
+        // Class<?> cls = Class.forName("api.commands.CommandsMap");
+        // System.out.println(cls.getName());
+        try {
             prop.load(CommandsMap.class.getClassLoader().getResourceAsStream("ChatCommands.properties"));
             Enumeration<?> propNames = prop.propertyNames();
-            while(propNames.hasMoreElements()) {
+            while (propNames.hasMoreElements()) {
                 Object current = propNames.nextElement();
-                testMap.put(current.toString(), Class.forName(prop.get(current.toString()).toString()));
+                cmdMapChat.put(current.toString(),
+                        Class.forName("api.commands." + prop.get(current.toString()).toString()));
             }
-            System.out.println(testMap);
-        }
-        catch(Exception e){
-            System.out.println(testMap);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     public static Class<?> queryClass(String cmd, String queue) {
         try {
             switch (queue) {
@@ -51,8 +37,11 @@ public class CommandsMap {
         } catch (Exception e) {
             return FOUROFOUR.class;
         }
-    
+
     }
 
-
+    public static void replace(String key, Class<?> cls) {
+        cmdMapChat.put(key, cls);
+        System.out.println("replaced");
+    }
 }
