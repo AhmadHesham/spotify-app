@@ -1,1 +1,1 @@
-java -jar ./Playlist/Playlist.jar
+java -jar ./Playlist/target/Playlist-1.0-SNAPSHOT-jar-with-dependencies.jar

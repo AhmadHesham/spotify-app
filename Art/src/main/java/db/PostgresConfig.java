@@ -82,6 +82,7 @@ public class PostgresConfig {
             }
         }
         catch (Exception e){
+            e.printStackTrace();
             setDBName("postgres");
             setDBPassword("postgres");
             setDBHost("localhost");

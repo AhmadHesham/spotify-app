@@ -167,6 +167,12 @@
             <artifactId>firebase-admin</artifactId>
             <version>7.2.0</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.mybatis/mybatis -->
+        <dependency>
+            <groupId>org.mybatis</groupId>
+            <artifactId>mybatis</artifactId>
+            <version>3.0.1</version>
+        </dependency>
 
     </dependencies>
 

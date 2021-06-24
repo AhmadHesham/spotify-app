@@ -1,1 +1,1 @@
-java -jar ./Account/Account.jar
+java -jar ./Account/target/Account-1.0-SNAPSHOT-jar-with-dependencies.jar

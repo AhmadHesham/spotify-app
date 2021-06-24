@@ -1,1 +1,1 @@
-java -jar ./Auth/Auth.jar
+java -jar ./Auth/target/Auth-1.0-SNAPSHOT-jar-with-dependencies.jar
