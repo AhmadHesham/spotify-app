@@ -13,9 +13,9 @@ public class ChatMain {
     public static RabbitMQConfig configIn = new RabbitMQConfig("chat-IN");
 
     public static void main(String[] args) throws Exception {
-        FirebaseConfig.initialize();
+//        FirebaseConfig.initialize();
         CommandsMap.initialize();
-        ArangoConfig.initialize("demo");
+//        ArangoConfig.initialize("demo");
 
         Consumer consumer = new Consumer(configIn,true);
         try {

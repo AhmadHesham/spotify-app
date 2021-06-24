@@ -1,5 +1,8 @@
 package api.commands;
 
+import java.io.*;
+import java.util.Enumeration;
+import java.util.Properties;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -19,6 +22,22 @@ public class CommandsMap {
         cmdMapChat.put("get-chat-notification", GetNotifications.class);
         cmdMapChat.put("set-registration-token", SetRegistrationToken.class);
         //End of Chat CommandsMap
+
+        ConcurrentMap<String, Class<?>> testMap  = new ConcurrentHashMap<>();
+        Properties prop = new Properties();
+        try{
+            prop.load(CommandsMap.class.getClassLoader().getResourceAsStream("ChatCommands.properties"));
+            Enumeration<?> propNames = prop.propertyNames();
+            while(propNames.hasMoreElements()) {
+                Object current = propNames.nextElement();
+                testMap.put(current.toString(), Class.forName(prop.get(current.toString()).toString()));
+            }
+            System.out.println(testMap);
+        }
+        catch(Exception e){
+            System.out.println(testMap);
+            e.printStackTrace();
+        }
     }
     
     public static Class<?> queryClass(String cmd, String queue) {
