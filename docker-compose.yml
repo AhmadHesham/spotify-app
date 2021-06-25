@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.7'
 
 services:
   account:
@@ -12,7 +12,7 @@ services:
       DB_NAME: sample
       DB_DATABASE: sample
       DB_PORT: 3306
-      DB_HOST: db
+      DB_HOST: postgres
       # BUNDLE_PATH: /bundle
       # - bundle:/bundle
     ports:
@@ -23,11 +23,97 @@ services:
       - '3000'
     entrypoint: sh ./entrypoints/account.sh
     depends_on:
-      - db
+      - postgres
       - rabbitmq
     networks:
       - rabbitmq_go_net
+      - postgres_go_net
+      - arangodb_go_net
   auth:
+    build:
+      # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
+      context: .
+    #      dockerfile: Dockerfile
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_NAME: sample
+      DB_DATABASE: sample
+      DB_PORT: 3306
+      DB_HOST: postgres
+      # BUNDLE_PATH: /bundle
+      # - bundle:/bundle
+    ports:
+      - '8081:8081'
+    #    depends_on:
+    #      - db
+    expose:
+      - '3000'
+    entrypoint: sh ./entrypoints/auth.sh
+    depends_on:
+      - postgres
+      - rabbitmq
+    networks:
+      - rabbitmq_go_net
+      - postgres_go_net
+      - arangodb_go_net
+  art:
+    build:
+      # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
+      context: .
+    #      dockerfile: Dockerfile
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_NAME: sample
+      DB_DATABASE: sample
+      DB_PORT: 3306
+      DB_HOST: db
+        # BUNDLE_PATH: /bundle
+      # - bundle:/bundle
+    ports:
+      - '8082:8082'
+      #    depends_on:
+      #      - db
+    expose:
+      - '3000'
+    entrypoint: sh ./entrypoints/art.sh
+    depends_on:
+      - postgres
+      - rabbitmq
+    networks:
+      - rabbitmq_go_net
+      - postgres_go_net
+      - arangodb_go_net
+  playlist:
+    build:
+      # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
+      context: .
+    #      dockerfile: Dockerfile
+    environment:
+      DB_USERNAME: root
+      DB_PASSWORD: root
+      DB_NAME: sample
+      DB_DATABASE: sample
+      DB_PORT: 3306
+      DB_HOST: db
+        # BUNDLE_PATH: /bundle
+      # - bundle:/bundle
+    ports:
+      - '8083:8083'
+        #    depends_on:
+      #      - db
+    expose:
+      - '3000'
+    entrypoint: sh ./entrypoints/playlist.sh
+    depends_on:
+      - postgres
+      - rabbitmq
+    networks:
+      - rabbitmq_go_net
+      - postgres_go_net
+      - arangodb_go_net
+  chat:
     build:
       # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
       context: .
@@ -42,104 +128,41 @@ services:
       # BUNDLE_PATH: /bundle
       # - bundle:/bundle
     ports:
-      - '8081:8081'
-    #    depends_on:
-    #      - db
+      - '9090:9090'
+      #    depends_on:
+      #      - db
     expose:
       - '3000'
-    entrypoint: sh ./entrypoints/auth.sh
+    entrypoint: sh ./entrypoints/chat.sh
     depends_on:
-      - db
+      - postgres
       - rabbitmq
     networks:
       - rabbitmq_go_net
-#  art:
-#    build:
-#      # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
-#      context: .
-#    #      dockerfile: Dockerfile
-#    environment:
-#      DB_USERNAME: root
-#      DB_PASSWORD: root
-#      DB_NAME: sample
-#      DB_DATABASE: sample
-#      DB_PORT: 3306
-#      DB_HOST: db
-#        # BUNDLE_PATH: /bundle
-#      # - bundle:/bundle
-#    ports:
-#      - '8082:8082'
-#      #    depends_on:
-#      #      - db
-#    expose:
-#      - '3000'
-#    entrypoint: sh ./entrypoints/art.sh
-#    depends_on:
-#      - db
-#      - rabbitmq
-#    networks:
-#      - rabbitmq_go_net
-#  playlist:
-#    build:
-#      # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
-#      context: .
-#    #      dockerfile: Dockerfile
-#    environment:
-#      DB_USERNAME: root
-#      DB_PASSWORD: root
-#      DB_NAME: sample
-#      DB_DATABASE: sample
-#      DB_PORT: 3306
-#      DB_HOST: db
-#        # BUNDLE_PATH: /bundle
-#      # - bundle:/bundle
-#    ports:
-#      - '8083:8083'
-#        #    depends_on:
-#      #      - db
-#    expose:
-#      - '3000'
-#    entrypoint: sh ./entrypoints/playlist.sh
-#    depends_on:
-#      - db
-#      - rabbitmq
-#    networks:
-#      - rabbitmq_go_net
-#  chat:
-#    build:
-#      # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
-#      context: .
-#    #      dockerfile: Dockerfile
-#    environment:
-#      DB_USERNAME: root
-#      DB_PASSWORD: root
-#      DB_NAME: sample
-#      DB_DATABASE: sample
-#      DB_PORT: 3306
-#      DB_HOST: db
-#      # BUNDLE_PATH: /bundle
-#      # - bundle:/bundle
-#    ports:
-#      - '9090:9090'
-#      #    depends_on:
-#      #      - db
-#    expose:
-#      - '3000'
-#    entrypoint: sh ./entrypoints/chat.sh
-#    depends_on:
-#      - db
-#      - rabbitmq
-#    networks:
-#      - rabbitmq_go_net
-#
-  db:
-    image: postgres
-    volumes:
-      - ./data/db:/var/lib/postgresql/data
+      - postgres_go_net
+      - arangodb_go_net
+
+  postgres:
+    image: postgres:12.7
+    restart: always
     environment:
-      - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres
+    logging:
+      options:
+        max-size: 10m
+        max-file: "3"
+    ports:
+      - '5438:5432'
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+      # copy the sql script to create tables
+      - ./sql/create_tables.sql:/docker-entrypoint-initdb.d/create_tables.sql
+      # copy the sql script to fill tables
+      - ./sql/procedures.sql:/docker-entrypoint-initdb.d/procedures.sql
+      - ./sql/sql_functions.sql:/docker-entrypoint-initdb.d/sql_functions.sql
+    networks:
+      - postgres_go_net
 
   rabbitmq:
     image: rabbitmq:3-management-alpine
@@ -153,12 +176,33 @@ services:
     networks:
       - rabbitmq_go_net
 
-  node:
-    build: .
-    entrypoint: sh ./entrypoints/prepare-db.sh
-    depends_on:
-      - db
+#  node:
+#    build: .
+#    entrypoint: sh ./entrypoints/prepare-db.sh
+#    depends_on:
+#      - db
+
+  arangodb:
+    image: arangodb:latest
+    platform: linux/x86_64
+    environment:
+      ARANGO_ROOT_PASSWORD: rootpassword
+    ports:
+      - 8529:8529
+    volumes:
+      - arangodb_data_container:/var/lib/arangodb3
+      - arangodb_apps_data_container:/var/lib/arangodb3-apps
+    networks:
+      - arangodb_go_net
 
 networks:
   rabbitmq_go_net:
     driver: bridge
+  postgres_go_net:
+    driver: bridge
+  arangodb_go_net:
+    driver: bridge
+volumes:
+  arangodb_data_container:
+  arangodb_apps_data_container:
+

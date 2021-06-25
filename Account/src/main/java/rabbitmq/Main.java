@@ -11,7 +11,7 @@ public class Main {
 
 
     public static void main(String[] args) throws  Exception{
-        RunningDBScript.main(null);
+//        RunningDBScript.main(null);
         Thread.sleep(30000);
         CommandsMap.initialize();
         AccountMain.main(null);

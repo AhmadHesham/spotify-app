@@ -74,14 +74,16 @@ public class PostgresConfig {
                         setDBPort("5432");
                 }
             }
+            System.out.println(DBHost);
             if (DBHost.equals("localhost")) {
                 setDBURL("jdbc:postgresql://" + DBHost + ":" + DBPort + "/" + DBName);
 
             } else {
-                setDBURL("jdbc:postgresql://" + DBHost + ":" + DBPort + "/" + DBName + "?sslmode=require");
+                setDBURL("jdbc:postgresql://" + DBHost + ":" + DBPort + "/" + DBName);
             }
         }
         catch (Exception e){
+            e.printStackTrace();
             setDBName("postgres");
             setDBPassword("postgres");
             setDBHost("localhost");

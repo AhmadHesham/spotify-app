@@ -19,7 +19,7 @@ public class SignIn extends Command {
     public void execute() throws Exception {
 
         try {
-             dbConn = PostgresConfig.getDataSource().getConnection();
+            dbConn = PostgresConfig.getDataSource().getConnection();
             func = dbConn.prepareStatement("SELECT * FROM get_account_username(?);");
             func.setString(1, map.get("username"));
             set = func.executeQuery();
@@ -71,6 +71,7 @@ public class SignIn extends Command {
                     ResponseHandler.handleResponse(result.toString(), map.get("queue"), map.get("correlation_id"));
                     return;
                 } else {
+
                     result.put("error", "wrong credentials");
 
 //                    proc.close();
@@ -87,16 +88,12 @@ public class SignIn extends Command {
             }
 
 
-
-
-
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
             JSONObject result = new JSONObject();
             result.put("error", "An exception has occurred");
             ResponseHandler.handleError(result.toString(), STATUSCODES.UNKNOWN, map.get("queue"), map.get("correlation_id"));
-        }
-        finally {
+        } finally {
             try {
                 // proc.close();
                 // func.close();
