@@ -30,8 +30,6 @@ public class HTTPHandler extends SimpleChannelInboundHandler<Object> {
     private String requestName;
     private String queueName;
 
-
-
     public void channelReadComplete(ChannelHandlerContext ctx) {
         ctx.flush();
         ctx.fireChannelReadComplete();
@@ -46,9 +44,9 @@ public class HTTPHandler extends SimpleChannelInboundHandler<Object> {
             requestName = request.uri().split("/")[2];
             queueName = request.uri().split("/")[1];
             System.out.println(requestName);
-            if(!requestName.equals("sign-in") && !requestName.equals("create-account") ) {
+            if (!requestName.equals("sign-in") && !requestName.equals("create-account")) {
                 try {
-                    if(request.headers().get("token").equals("") || !request.headers().contains("token")){
+                    if (!request.headers().contains("token") || request.headers().get("token").equals("")) {
                         throw new JwtException("token not defined");
                     }
                     verifiedToken = JWT.decodeJWT(request.headers().get("token"));
@@ -62,7 +60,6 @@ public class HTTPHandler extends SimpleChannelInboundHandler<Object> {
                 this.claims = verifiedToken;
             }
 
-
             if (HttpUtil.is100ContinueExpected(request)) {
                 send100Continue(ctx);
             }
@@ -74,7 +71,7 @@ public class HTTPHandler extends SimpleChannelInboundHandler<Object> {
             ByteBuf content = httpContent.content();
 
             JSONObject json = new JSONObject(content.copy().toString(CharsetUtil.UTF_8));
-            if(claims != null) {
+            if (claims != null) {
                 Map<String, Object> claimsMap = new HashMap<>(claims);
                 Iterator it = claimsMap.entrySet().iterator();
 
@@ -86,25 +83,20 @@ public class HTTPHandler extends SimpleChannelInboundHandler<Object> {
             json.put("method", requestName);
             json.put("queue", queueName);
 
-
             ctx.fireChannelRead(json);
         }
         if (msg instanceof LastHttpContent) {
-//            LastHttpContent trailer = (LastHttpContent) msg;
+            // LastHttpContent trailer = (LastHttpContent) msg;
             HttpObject trailer = (HttpObject) msg;
-//            writeresponse(trailer, ctx);
+            // writeresponse(trailer, ctx);
         }
     }
 
-
     private static void send100Continue(ChannelHandlerContext ctx) {
         System.out.println("tab ehhhhhhhhh");
-        FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1,
-                CONTINUE);
+        FullHttpResponse response = new DefaultFullHttpResponse(HTTP_1_1, CONTINUE);
         ctx.writeAndFlush(response);
     }
-
-
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
@@ -112,7 +104,4 @@ public class HTTPHandler extends SimpleChannelInboundHandler<Object> {
         ctx.close();
     }
 
-
-
 }
-
