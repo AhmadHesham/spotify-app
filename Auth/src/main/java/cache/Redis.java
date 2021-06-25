@@ -12,8 +12,14 @@ public class Redis {
     public static String get(String key){
         return jedis.get(key);
     }
+
+    public static boolean hasKey(String key){
+        return jedis.exists(key);
+    }
     public static void main(String[] args) {
         put("x","y");
+//        put("x","88");
+
         System.out.println(get("x"));
     }
 }

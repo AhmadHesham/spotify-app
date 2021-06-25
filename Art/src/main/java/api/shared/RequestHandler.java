@@ -2,6 +2,7 @@ package api.shared;
 
 import api.Command;
 import api.commands.CommandsMap;
+import controller.CommandsMapController;
 import api.utils.JSONMapper;
 import threading.Pool;
 
@@ -21,7 +22,13 @@ public class RequestHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Class<?> cmdClass = CommandsMap.queryClass(map.get("method"), map.get("queue"));
+        Class<?> cmdClass = null;
+        if(map.get("queue").equals("controller-IN")){
+            cmdClass = CommandsMap.queryClass(map.get("method"), map.get("queue"));
+        }
+        else {
+            cmdClass = CommandsMapController.queryClass(map.get("method"), map.get("queue"));
+        }
         Command c = null;
         try {
             c = (Command) cmdClass.getDeclaredConstructor().newInstance();

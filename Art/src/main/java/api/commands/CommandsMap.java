@@ -1,5 +1,7 @@
 package api.commands;
 
+import cache.Redis;
+
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
@@ -42,18 +44,14 @@ public class CommandsMap {
     }
     
     public static Class<?> queryClass(String cmd, String queue) {
+        if(Redis.hasKey("freeze") && Redis.get("freeze").equals("true")){
+            return FROZEN.class;
+        }
+
         try {
             switch (queue) {
                 case "art":
                     return cmdMapArt.get(cmd);
-                case "account":
-                    return cmdMapAccounts.get(cmd);
-                case "auth":
-                    return cmdMapAuth.get(cmd);
-                case "playlist":
-                    return cmdMapPlaylists.get(cmd);
-                case "chat":
-                    return cmdMapChat.get(cmd);
                 default:
                     return FOUROFOUR.class;
             }

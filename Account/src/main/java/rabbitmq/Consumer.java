@@ -40,7 +40,7 @@ public class Consumer extends RequestHandler {
 //        String result;
 //        final BlockingQueue<String> response = new ArrayBlockingQueue<String>(1);
         try {
-
+            System.out.println("heyyy inside consumeeee");
 
             channel.basicConsume(config.getQueueName(), true, new DefaultConsumer(channel) {  // eb2a shelha lamma tkhallas
                 @Override
@@ -51,7 +51,8 @@ public class Consumer extends RequestHandler {
 //                    try {
                     Pool pool = null;
                     switch (config.getQueueName()){
-                        case "account-IN" : pool = AccountMain.pool; break;
+                        case "account-IN" :
+                        case "controller-IN": pool = AccountMain.pool; break;
                     }
                     handleRequest(new String(body, StandardCharsets.UTF_8), pool, properties.getCorrelationId());
 //                    } catch (InterruptedException e) {

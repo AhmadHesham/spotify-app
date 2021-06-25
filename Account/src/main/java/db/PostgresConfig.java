@@ -8,6 +8,7 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Properties;
 import java.util.regex.Matcher;
@@ -23,8 +24,8 @@ public class PostgresConfig {
     private static String DBHost;
     private static String DBPort;
     private static String DBURL;
-    private static String DB_INIT_CONNECTIONS = "10000";
-    private static String DB_MAX_CONNECTIONS = "10000";
+    private static String DB_INIT_CONNECTIONS = "5";
+    private static String DB_MAX_CONNECTIONS = "10";
     private static PoolingDriver dbDriver;
     private static PoolingDataSource<PoolableConnection> dataSource;
 
@@ -205,6 +206,38 @@ public class PostgresConfig {
 
     public static PoolingDataSource<PoolableConnection> getDataSource() {
         return dataSource;
+    }
+
+
+    public static void setMaxDBConnections(int maxDBConnections) throws ClassNotFoundException, SQLException {
+        DB_MAX_CONNECTIONS = maxDBConnections+"";
+        Properties props = new Properties();
+        props.setProperty("user", DBUser);
+        props.setProperty("password", DBPassword);
+        props.setProperty("initialSize", DB_INIT_CONNECTIONS);
+        props.setProperty("maxActive", DB_MAX_CONNECTIONS);
+
+        ConnectionFactory connectionFactory = new DriverManagerConnectionFactory(
+                DBURL, props);
+        PoolableConnectionFactory poolableConnectionFactory = new PoolableConnectionFactory(
+                connectionFactory, null);
+        poolableConnectionFactory.setPoolStatements(true);
+
+        GenericObjectPoolConfig poolConfig = new GenericObjectPoolConfig();
+        poolConfig.setMaxIdle(Integer.parseInt(DB_INIT_CONNECTIONS));
+        poolConfig.setMaxTotal(Integer.parseInt(DB_MAX_CONNECTIONS));
+
+        ObjectPool<PoolableConnection> connectionPool = new GenericObjectPool<>(
+                poolableConnectionFactory, poolConfig);
+        poolableConnectionFactory.setPool(connectionPool);
+
+        Class.forName("org.apache.commons.dbcp2.PoolingDriver");
+        dbDriver = (PoolingDriver) DriverManager
+                .getDriver("jdbc:apache:commons:dbcp:");
+        dbDriver.registerPool(DBName, connectionPool);
+
+        dataSource = new PoolingDataSource<>(connectionPool);
+
     }
 
 }

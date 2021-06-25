@@ -2,6 +2,7 @@ package api.shared;
 
 import api.Command;
 import api.commands.CommandsMap;
+import controller.CommandsMapController;
 import api.utils.JSONMapper;
 import threading.Pool;
 
@@ -11,9 +12,10 @@ import java.util.HashMap;
 
 public class RequestHandler {
 
-    public static void handleRequest(String message, Pool pool, String correlationId){
+    public static void handleRequest(String message, Pool pool, String correlationId) {
         HashMap<String, String> map = null;
         JSONMapper jsonMapper = new JSONMapper(message);
+        System.out.println("inside handle request");
 
         try {
             map = jsonMapper.toHash();
@@ -21,7 +23,15 @@ public class RequestHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Class<?> cmdClass = CommandsMap.queryClass(map.get("method"), map.get("queue"));
+        Class<?> cmdClass = null;
+
+        System.out.println(map.get("queue"));
+        if (map.get("queue").equals("controller")) {
+            System.out.println("hena walla fen?");
+            cmdClass = CommandsMapController.queryClass(map.get("method"), map.get("queue"));
+        } else {
+            cmdClass = CommandsMap.queryClass(map.get("method"), map.get("queue"));
+        }
         Command c = null;
         try {
             c = (Command) cmdClass.getDeclaredConstructor().newInstance();

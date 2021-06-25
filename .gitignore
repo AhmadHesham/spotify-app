@@ -34,3 +34,5 @@ spotify-server-4e6f2-firebase-adminsdk.json
 */target
 
 package-lock.json
+
+/postgres-data

@@ -31,6 +31,7 @@ public class Consumer extends RequestHandler {
             if (callConsume)
                 consume();
         } catch (IOException | TimeoutException e) {
+            e.printStackTrace();
             lgr.log(Level.SEVERE, e.getMessage(), e);
         }
     }
@@ -50,12 +51,11 @@ public class Consumer extends RequestHandler {
 //                    }
 //                    try {
                     Pool pool = null;
-                    switch (config.getQueueName()){
-                        case "art-IN" : pool = ArtMain.pool; break;
-                        case "account-IN" : pool = AccountMain.pool; break;
-                        case "playlist-IN" : pool = PlaylistMain.pool; break;
-                        case "auth-IN" : pool = AuthMain.pool; break;
-                        case "chat-IN": pool = ChatMain.pool;break;
+                    switch (config.getQueueName()) {
+                        case "account-IN":
+                        case "controller-IN":
+                            pool = AccountMain.pool;
+                            break;
                     }
                     handleRequest(new String(body, StandardCharsets.UTF_8), pool, properties.getCorrelationId());
 //                    } catch (InterruptedException e) {
@@ -65,6 +65,7 @@ public class Consumer extends RequestHandler {
             });
 
         } catch (IOException e) {
+            e.printStackTrace();
             lgr.log(Level.SEVERE, e.getMessage(), e);
         }
     }

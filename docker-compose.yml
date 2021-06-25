@@ -194,6 +194,9 @@ services:
       - arangodb_apps_data_container:/var/lib/arangodb3-apps
     networks:
       - arangodb_go_net
+  redis:
+    image: redis:6.2.4
+
 
 networks:
   rabbitmq_go_net:
