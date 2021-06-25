@@ -19,7 +19,7 @@ public class RabbitMQConfig {
     public Connection connect() throws IOException, TimeoutException {
         if (connection == null) {
             ConnectionFactory connectionFactory = new ConnectionFactory();
-//            connectionFactory.setHost("rabbitmq");
+//            connectionFactory.setHost("localhost");
 //            connectionFactory.setPort(5672);
 //            connectionFactory.setHost("localhost");
             connection = connectionFactory.newConnection();

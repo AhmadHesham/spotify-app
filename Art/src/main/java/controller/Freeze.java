@@ -10,7 +10,7 @@ public class Freeze extends Command {
     public void execute() throws Exception {
         try {
             System.out.println("geh hena");
-            Redis.put("freeze", "true");
+            Redis.put("art-freeze", "true");
             System.out.println("here??");
             ResponseHandler.handleResponse("Application Frozen", map.get("queue"), map.get("correlation_id"));
         } catch (Exception e) {

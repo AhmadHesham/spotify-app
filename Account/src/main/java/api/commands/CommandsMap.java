@@ -38,7 +38,7 @@ public class CommandsMap {
 
     public static Class<?> queryClass(String cmd, String queue) {
         try {
-            if (Redis.hasKey("freeze") && Redis.get("freeze").equals("true")) {
+            if (Redis.hasKey("account-freeze") && Redis.get("account-freeze").equals("true")) {
                 return FROZEN.class;
             }
             switch (queue) {
