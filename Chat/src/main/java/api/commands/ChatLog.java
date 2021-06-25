@@ -42,7 +42,7 @@ public class ChatLog extends Command {
             for (String document: cursor) {
                 logs.add(document);
             }
-            System.out.println("Logging...");
+            System.out.println("Logging........");
             ResponseHandler.handleResponse(logs.toString(), map.get("queue"), map.get("correlation_id"));
         }
         catch(Exception e){

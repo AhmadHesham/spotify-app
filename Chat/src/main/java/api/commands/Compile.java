@@ -31,8 +31,8 @@ public class Compile extends Command {
             StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
             Iterable<? extends JavaFileObject> compilationUnits = fileManager
                     .getJavaFileObjectsFromStrings(Arrays.asList("Chat/src/main/java/api/commands/" + map.get("className") + ".java"));
-            String[] arr = {"-cp", "../../../../../target/classes/api/commands"};
-            Iterable<String> options = Arrays.asList();
+            String[] arr = {"-d", "./chat/target/classes/"};
+            Iterable<String> options = Arrays.asList(arr);
             JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, null, options, null, compilationUnits);
             boolean success = task.call();
             fileManager.close();
