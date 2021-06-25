@@ -36,7 +36,10 @@ public class Compile extends Command {
             JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, null, options, null, compilationUnits);
             boolean success = task.call();
             fileManager.close();
-            System.out.println("Success: " + success);
+            System.out.println("Compiling Success State: " + success);
+
+            CommandsMap.replace(map.get("className"), Class.forName("api.commands." + map.get("className")));
+            System.out.println("Replace Status: Success" );
 
         } catch (Exception e) {
             e.printStackTrace();
