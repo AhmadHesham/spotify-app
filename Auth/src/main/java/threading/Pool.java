@@ -29,8 +29,8 @@ public class Pool {
 
     public void setMaxThreads(int maxThreads) {
         this.maxThreads = maxThreads;
+        executor.setMaximumPoolSize(maxThreads);
     }
-
     public int getMaxThreads() {
         return maxThreads;
     }
