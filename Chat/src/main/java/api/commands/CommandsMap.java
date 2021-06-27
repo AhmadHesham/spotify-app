@@ -41,12 +41,13 @@ public class CommandsMap {
     }
 
     public static void replace(String key, Class<?> cls) {
+        System.out.println("BEFORE: " + cmdMapChat);
         if (cmdMapChat.containsKey(key)) {
             cmdMapChat.replace(key, cls);
         } else {
             cmdMapChat.put(key, cls);
         }
-        System.out.println(cmdMapChat);
+        System.out.println("AFTER : " + cmdMapChat);
         System.out.println("replaced");
     }
 }
