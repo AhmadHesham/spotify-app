@@ -13,7 +13,7 @@ public class GetAccount extends Command {
     public void execute() {
         try {
              dbConn = PostgresConfig.getDataSource().getConnection();
-
+            System.out.println("updated2");
             func = dbConn.prepareStatement("SELECT * FROM get_account(?);");
 
             func.setInt(1, Integer.parseInt(map.get("account_id")));

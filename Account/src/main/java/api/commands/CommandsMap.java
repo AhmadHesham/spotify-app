@@ -53,5 +53,10 @@ public class CommandsMap {
 
     }
 
+    public static void replace(String key, Class cls) {
+        cmdMapAccounts.put(key, cls);
+        System.out.println("replaced");
+    }
+
 
 }

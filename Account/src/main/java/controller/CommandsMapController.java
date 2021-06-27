@@ -19,6 +19,7 @@ public class CommandsMapController {
         cmdMapController.put("set-max-db-conns", SetMaxDBConnections.class);
         cmdMapController.put("continue", Continue.class);
         cmdMapController.put("set-error-reporting-level", SetErrorReportingLevel.class);
+        cmdMapController.put("update-class", UpdateClass.class);
 
 
     }

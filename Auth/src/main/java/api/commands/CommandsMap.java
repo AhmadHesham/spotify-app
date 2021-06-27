@@ -12,6 +12,7 @@ public class CommandsMap {
 
 
     public static void initialize() {
+
         cmdMapAuth = new ConcurrentHashMap<>();
     
         cmdMapAuth.put("sign-in", SignIn.class);
@@ -22,6 +23,9 @@ public class CommandsMap {
     
     public static Class<?> queryClass(String cmd, String queue) {
         try {
+            System.out.println("here");
+            System.out.println(cmd);
+            System.out.println(queue);
             if(Redis.hasKey("auth-freeze") && Redis.get("auth-freeze").equals("true")){
                 return FROZEN.class;
             }
@@ -32,6 +36,7 @@ public class CommandsMap {
                     return FOUROFOUR.class;
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return FOUROFOUR.class;
         }
     

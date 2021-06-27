@@ -9,6 +9,7 @@ public class FOUROFOUR extends Command {
 
     @Override
     public void execute() throws Exception {
+        System.out.println("maaaaaaaP"+map);
         JSONObject response = new JSONObject();
         response.put("error", "Command not found");
         response.put("easter_egg", "https://res.cloudinary.com/spotify-scalable/image/upload/v1620764323/memes/eh_el_kalam_da_w4jonr.jpg");
