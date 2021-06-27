@@ -184,7 +184,7 @@ services:
 
   arangodb:
     image: arangodb:latest
-    platform: linux/x86_64
+#    platform: linux/x86_64
     environment:
       ARANGO_ROOT_PASSWORD: rootpassword
     ports:
