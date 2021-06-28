@@ -43,6 +43,7 @@ public class Compile extends Command {
 
             CompileHelper helper = new CompileHelper();
             helper.folderPath = type.equals("user") ? "api/commands/" : "controller/";
+            helper.packagePath = type.equals("user") ? "api.commands." : "controller.";
             Class<?> loadedClass = helper.loadClass(fileName);
             if (type.equals("user")) {
                 api.commands.CommandsMap.replace(methodName, loadedClass, fileName);

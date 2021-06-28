@@ -8,6 +8,7 @@ import java.util.List;
 
 public class CompileHelper extends ClassLoader {
     public String folderPath;
+    public String packagePath;
 
     @Override
     public Class<?> loadClass(String name) throws ClassNotFoundException {
@@ -27,7 +28,7 @@ public class CompileHelper extends ClassLoader {
                     .getResourceAsStream(folderPath + name + ".class");
             byte[] buff = new byte[10000];
             int len = in.read(buff);
-            return defineClass("api.commands." + name, buff, 0, len);
+            return defineClass(packagePath + name, buff, 0, len);
         } catch (Exception e) {
             // e.printStackTrace();
         }
