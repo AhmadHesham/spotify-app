@@ -1,13 +1,29 @@
 package controller;
 
+import java.io.BufferedReader;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CompileHelper extends ClassLoader {
 
     @Override
     public Class<?> loadClass(String name) throws ClassNotFoundException {
         try {
-            InputStream in = CompileHelper.class.getClassLoader().getResourceAsStream(name + ".class");
+            List<String> filenames = new ArrayList<>();
+            System.out.println("Enterd name "+name);
+            try (
+                    InputStream in1 = CompileHelper.class.getClassLoader().getResourceAsStream("api/commands");
+                    BufferedReader br = new BufferedReader(new InputStreamReader(in1))) {
+                String resource;
+
+                while ((resource = br.readLine()) != null) {
+                    System.out.println("Resource name: "+resource);
+                    filenames.add(resource);
+                }
+            }
+            InputStream in = CompileHelper.class.getClassLoader().getResourceAsStream("api/commands/" + name + ".class");
             byte[] buff = new byte[10000];
             int len = in.read(buff);
             return defineClass("api.commands." + name, buff, 0, len);

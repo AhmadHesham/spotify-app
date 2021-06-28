@@ -38,13 +38,10 @@ public class Compile extends Command {
             boolean success = task.call();
             System.out.println("Compilation Status: " + success);
 
-            new File(commandPrefix + fileName + ".class")
-                    .renameTo(new File("Chat/src/main/resources/" + fileName + ".class"));
-            Thread.sleep(3000);
             Class<?> loadedClass = new CompileHelper().loadClass(fileName);
             api.commands.CommandsMap.replace(methodName, loadedClass, fileName);
             ResponseHandler.handleResponse("Class " + fileName + " Compiled and Changed!", map.get("queue"), map.get("correlation_id"));
-            new File("Chat/src/main/resources/" + fileName + ".class").delete();
+            new File("Chat/src/main/java/api/commands/" + fileName + ".class").delete();
         } catch (Exception e) {
             e.printStackTrace();
         }
