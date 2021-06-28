@@ -3,7 +3,7 @@ package cache;
 import redis.clients.jedis.Jedis;
 
 public class Redis {
-    public static Jedis jedis = new Jedis("redis");
+    public static Jedis jedis = new Jedis("localhost");
 
     public static void put(String key, String value){
         jedis.set(key, value);

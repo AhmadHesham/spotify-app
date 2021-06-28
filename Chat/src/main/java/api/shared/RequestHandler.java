@@ -22,9 +22,11 @@ public class RequestHandler {
             e.printStackTrace();
         }
         Class<?> cmdClass;
+        System.out.println("IN REQ: " + map.get("queue"));
         if (map.get("queue").contains("controller")) {
             cmdClass = controller.CommandsMap.queryClass(map.get("method"), map.get("queue"));
         } else {
+            System.out.println("ENTERED ELSE");
             cmdClass = CommandsMap.queryClass(map.get("method"), map.get("queue"));
         }
         Command c = null;

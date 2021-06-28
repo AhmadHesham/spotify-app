@@ -31,6 +31,7 @@ public class CommandsMap {
             if(Redis.hasKey("chat-freeze") && Redis.get("chat-freeze").equals("true")){
                 return FROZEN.class;
             }
+            System.out.println("IN QUERY CLASS: " + queue + " " + cmd);
             switch (queue) {
                 case "chat":
                     return cmdMapChat.get(cmd);
@@ -38,6 +39,7 @@ public class CommandsMap {
                     return FOUROFOUR.class;
             }
         } catch (Exception e) {
+            e.printStackTrace();
             return FOUROFOUR.class;
         }
 
@@ -55,5 +57,6 @@ public class CommandsMap {
                 System.out.println("Error in updating .properties file");
             }
         }
+        System.out.println(cmdMapChat);
     }
 }
