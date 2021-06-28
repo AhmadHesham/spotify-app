@@ -18,8 +18,8 @@ public class Main {
 //        AccountMain.main(null);
         Thread.sleep(30000);
         ArtMain.main(null);
-        CommandsMap.initialize();
-        CommandsMapController.initialize();
+//        CommandsMap.initialize();
+//        CommandsMapController.initialize();
 //        AuthMain.main(null);
 //        PlaylistMain.main(null);
 //        ChatMain.main(null);

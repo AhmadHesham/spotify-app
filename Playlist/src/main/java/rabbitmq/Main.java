@@ -9,11 +9,10 @@ public class Main {
 
 
 
-    public static void main(String[] args) throws  Exception{
+    public static void main(String[] args) throws  Exception {
         Thread.sleep(30000);
         PlaylistMain.main(null);
-        CommandsMap.initialize();
+//        CommandsMap.initialize();
         NettyHTTPServer.main(null);
-
     }
 }

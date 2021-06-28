@@ -20,8 +20,8 @@ public class RabbitMQConfig {
         if (connection == null) {
             ConnectionFactory connectionFactory = new ConnectionFactory();
 //            connectionFactory.setHost("localhost");
-            //connectionFactory.setHost("rabbitmq");
-            //connectionFactory.setPort(5672);
+            connectionFactory.setHost("rabbitmq");
+            connectionFactory.setPort(5672);
             connection = connectionFactory.newConnection();
 //            connection.openChannel();
         }
