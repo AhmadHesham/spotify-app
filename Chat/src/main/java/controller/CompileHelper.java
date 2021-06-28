@@ -14,7 +14,7 @@ public class CompileHelper extends ClassLoader {
             int len = in.read(buff);
             return defineClass("api.commands." + name, buff, 0, len);
         } catch (Exception e) {
-            e.printStackTrace();
+            // e.printStackTrace();
         }
         return this.getParent().loadClass(name);
 

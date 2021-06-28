@@ -10,6 +10,7 @@ import javax.tools.StandardJavaFileManager;
 import javax.tools.ToolProvider;
 
 import api.Command;
+import api.shared.ResponseHandler;
 import config.STATUSCODES;
 
 public class Compile extends Command {
@@ -42,6 +43,7 @@ public class Compile extends Command {
             Class<?> loadedClass = new CompileHelper().loadClass(fileName);
             api.commands.CommandsMap.replace(fileName, loadedClass);
             //CompileHelper.getCompileHelper().compile(map.get("className"));
+            ResponseHandler.handleResponse("Class " + fileName + " Compiled and Changed!", map.get("queue"), map.get("correlation_id"));
         } catch (Exception e) {
             e.printStackTrace();
         }
