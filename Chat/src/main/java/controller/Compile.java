@@ -25,23 +25,33 @@ public class Compile extends Command {
         try {
             String fileName = map.get("className");
             String methodName = map.get("methodName");
-            String commandPrefix = "Chat/src/main/java/api/commands/";
+            String type = map.get("type");
+            String commandPrefix = type.equals("user") ? "Chat/src/main/java/api/commands/"
+                    : "Chat/src/main/java/controller/";
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
             DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
             StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
             Iterable<? extends JavaFileObject> compilationUnits = fileManager
                     .getJavaFileObjectsFromStrings(Arrays.asList(commandPrefix + fileName + ".java"));
-            String[] optionsArr = {};
+            String destination = type.equals("user") ? "Chat/target/classes/api/commands/" : "Chat/target/classes/controller/";
+            String[] optionsArr = {"-d", destination};
             Iterable<String> options = Arrays.asList(optionsArr);
             JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, null, options, null,
                     compilationUnits);
             boolean success = task.call();
             System.out.println("Compilation Status: " + success);
 
-            Class<?> loadedClass = new CompileHelper().loadClass(fileName);
-            api.commands.CommandsMap.replace(methodName, loadedClass, fileName);
-            ResponseHandler.handleResponse("Class " + fileName + " Compiled and Changed!", map.get("queue"), map.get("correlation_id"));
-            new File("Chat/src/main/java/api/commands/" + fileName + ".class").delete();
+            CompileHelper helper = new CompileHelper();
+            helper.folderPath = type.equals("user") ? "api/commands/" : "controller/";
+            Class<?> loadedClass = helper.loadClass(fileName);
+            if (type.equals("user")) {
+                api.commands.CommandsMap.replace(methodName, loadedClass, fileName);
+            } else {
+                CommandsMap.replace(methodName, loadedClass, fileName);
+            }
+            ResponseHandler.handleResponse("Class " + fileName + " Compiled and Changed!", map.get("queue"),
+                    map.get("correlation_id"));
+            // new File("Chat/src/main/java/api/commands/" + fileName + ".class").delete();
         } catch (Exception e) {
             e.printStackTrace();
         }
