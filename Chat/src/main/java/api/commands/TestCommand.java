@@ -3,6 +3,7 @@ package api.commands;
 
 
 import api.Command;
+import api.shared.ResponseHandler;
 
 public class TestCommand extends Command{
 
@@ -10,7 +11,7 @@ public class TestCommand extends Command{
     public void execute() throws Exception {
         // TODO Auto-generated method stu
         
-        System.out.println("I am a compiled File! 123");
+        ResponseHandler.handleResponse("New Compiled File!", map.get("queue"), map.get("correlation_id"));
     }
     
 }
