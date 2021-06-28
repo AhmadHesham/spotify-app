@@ -11,7 +11,7 @@ public class TestCommand extends Command{
     public void execute() throws Exception {
         // TODO Auto-generated method stu
         
-        ResponseHandler.handleResponse("New Compiled File!", map.get("queue"), map.get("correlation_id"));
+        ResponseHandler.handleResponse("New Version Compiled File!", map.get("queue"), map.get("correlation_id"));
     }
     
 }

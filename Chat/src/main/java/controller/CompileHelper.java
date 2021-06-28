@@ -7,9 +7,7 @@ public class CompileHelper extends ClassLoader {
     @Override
     public Class<?> loadClass(String name) throws ClassNotFoundException {
         try {
-            System.out.println("NAME: " + name);
             InputStream in = CompileHelper.class.getClassLoader().getResourceAsStream(name + ".class");
-            System.out.println("IN: " + in);
             byte[] buff = new byte[10000];
             int len = in.read(buff);
             return defineClass("api.commands." + name, buff, 0, len);

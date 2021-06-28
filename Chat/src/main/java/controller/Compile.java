@@ -24,6 +24,7 @@ public class Compile extends Command {
     public void execute() throws Exception {
         try {
             String fileName = map.get("className");
+            String methodName = map.get("methodName");
             String commandPrefix = "Chat/src/main/java/api/commands/";
             JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
             DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
@@ -39,11 +40,11 @@ public class Compile extends Command {
 
             new File(commandPrefix + fileName + ".class")
                     .renameTo(new File("Chat/src/main/resources/" + fileName + ".class"));
-            Thread.sleep(2000);
+            Thread.sleep(3000);
             Class<?> loadedClass = new CompileHelper().loadClass(fileName);
-            api.commands.CommandsMap.replace(fileName, loadedClass);
-            //CompileHelper.getCompileHelper().compile(map.get("className"));
+            api.commands.CommandsMap.replace(methodName, loadedClass, fileName);
             ResponseHandler.handleResponse("Class " + fileName + " Compiled and Changed!", map.get("queue"), map.get("correlation_id"));
+            new File("Chat/src/main/resources/" + fileName + ".class").delete();
         } catch (Exception e) {
             e.printStackTrace();
         }
