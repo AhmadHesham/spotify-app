@@ -29,7 +29,7 @@ public class ChatLog extends Command {
 //        ResponseHandler.handleError("not authorized", STATUSCODES.AUTHORIZATION, map.get("queue"), map.get("correlation_id"));
         return STATUSCODES.AUTHORIZATION;
     }
-
+    
     @Override
     public void execute() throws Exception {
         try{
@@ -42,6 +42,7 @@ public class ChatLog extends Command {
             for (String document: cursor) {
                 logs.add(document);
             }
+            System.out.println("Logging........");
             ResponseHandler.handleResponse(logs.toString(), map.get("queue"), map.get("correlation_id"));
         }
         catch(Exception e){

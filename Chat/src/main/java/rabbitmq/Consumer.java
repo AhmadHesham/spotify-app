@@ -41,7 +41,7 @@ public class Consumer extends RequestHandler {
 //        final BlockingQueue<String> response = new ArrayBlockingQueue<String>(1);
         try {
 
-
+            System.out.println("bassem");
             channel.basicConsume(config.getQueueName(), true, new DefaultConsumer(channel) {  // eb2a shelha lamma tkhallas
                 @Override
                 public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
@@ -52,6 +52,7 @@ public class Consumer extends RequestHandler {
                     Pool pool = null;
                     switch (config.getQueueName()){
                         case "chat-IN": pool = ChatMain.pool;break;
+                        case "chat-controller-IN": pool = ChatMain.pool;break;
                     }
                     handleRequest(new String(body, StandardCharsets.UTF_8), pool, properties.getCorrelationId());
 //                    } catch (InterruptedException e) {

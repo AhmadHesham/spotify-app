@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class RequestHandler {
 
-    public static void handleRequest(String message, Pool pool, String correlationId){
+    public static void handleRequest(String message, Pool pool, String correlationId) {
         HashMap<String, String> map = null;
         JSONMapper jsonMapper = new JSONMapper(message);
 
@@ -21,7 +21,12 @@ public class RequestHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Class<?> cmdClass = CommandsMap.queryClass(map.get("method"), map.get("queue"));
+        Class<?> cmdClass;
+        if (map.get("queue").contains("controller")) {
+            cmdClass = controller.CommandsMap.queryClass(map.get("method"), map.get("queue"));
+        } else {
+            cmdClass = CommandsMap.queryClass(map.get("method"), map.get("queue"));
+        }
         Command c = null;
         try {
             c = (Command) cmdClass.getDeclaredConstructor().newInstance();

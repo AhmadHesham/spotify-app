@@ -1,0 +1,14 @@
+ConcurrentMap<String, Class<?>> testMap  = new ConcurrentHashMap<>();
+        Properties prop = new Properties();
+        InputStream in = CommandsMap.class.getClass().getResourceAsStream("/authCommands.properties");
+        prop.load(in);
+        in.close();
+        Enumeration enumKeys = prop.propertyNames();
+        String strActionName, strClassName;
+
+        while( enumKeys.hasMoreElements()){
+            strActionName = (String) enumKeys.nextElement();
+            strClassName = (String)prop.get(strActionName);
+            Class<?> innerClass = Class.forName(strClassName);
+            testMap.put(strActionName, innerClass);
+        }

@@ -48,7 +48,7 @@ public class HTTPHandler extends SimpleChannelInboundHandler<Object> {
             System.out.println(requestName);
             if(!requestName.equals("sign-in") && !requestName.equals("create-account") ) {
                 try {
-                    if(request.headers().get("token").equals("") || !request.headers().contains("token")){
+                    if(!request.headers().contains("token") || request.headers().get("token").equals("")){
                         throw new JwtException("token not defined");
                     }
                     verifiedToken = JWT.decodeJWT(request.headers().get("token"));

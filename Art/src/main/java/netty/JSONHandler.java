@@ -33,13 +33,11 @@ public class JSONHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, Object o) throws Exception {
         try {
-            System.out.println(o.toString());
 //        ByteBuf buffer = (ByteBuf) o;
 
             JSONObject jsonObject = (JSONObject) o;
             String queueName = jsonObject.getString("queue");
 
-            System.out.println(queueName);
             if (!Arrays.asList(CONSTANTS.QUEUES).contains(queueName)) {
                 JSONObject error404 = new JSONObject();
                 error404.put("error", "bad request");
@@ -54,8 +52,6 @@ public class JSONHandler extends SimpleChannelInboundHandler<Object> {
                 this.responseBody = error.toString();
             } else {
                 correlationId = UUID.randomUUID().toString();
-//        System.out.println(jsonObject.toString());
-                System.out.println(queueName);
 
                 QueueNotifier notifier = new QueueNotifier(this, queueName);
 
@@ -65,7 +61,6 @@ public class JSONHandler extends SimpleChannelInboundHandler<Object> {
                 Future future = executorService.submit(notifier);
 
                 this.responseBody = (String) future.get();
-                System.out.println(responseBody);
 
 
             }

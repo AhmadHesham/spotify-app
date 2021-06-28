@@ -30,6 +30,7 @@ public class LogText extends Command {
                 System.out.println("SUCCESS");
                 return STATUSCODES.SUCCESS;
             }
+            System.out.println("Logging....");
         }
         catch (Exception e){
 //            ResponseHandler.handleError("Invalid Chat!", STATUSCODES.INVALIDCHAT, map.get("queue"), map.get("correlation_id"));
