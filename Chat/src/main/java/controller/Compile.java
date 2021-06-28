@@ -33,7 +33,7 @@ public class Compile extends Command {
             StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
             Iterable<? extends JavaFileObject> compilationUnits = fileManager
                     .getJavaFileObjectsFromStrings(Arrays.asList(commandPrefix + fileName + ".java"));
-            String destination = type.equals("user") ? "Chat/target/classes/api/commands/" : "Chat/target/classes/controller/";
+            String destination = type.equals("user") ? "Chat/target/classes/" : "Chat/target/classes/";
             String[] optionsArr = {"-d", destination};
             Iterable<String> options = Arrays.asList(optionsArr);
             JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, null, options, null,
