@@ -52,9 +52,9 @@ public class Consumer extends RequestHandler {
 //                    try {
                     Pool pool = null;
                     switch (config.getQueueName()) {
-                        case "account-IN":
-                        case "controller-IN":
-                            pool = AccountMain.pool;
+                        case "art-IN":
+                        case "art-controller-IN":
+                            pool = ArtMain.pool;
                             break;
                     }
                     handleRequest(new String(body, StandardCharsets.UTF_8), pool, properties.getCorrelationId());

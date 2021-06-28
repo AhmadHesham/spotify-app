@@ -23,11 +23,11 @@ public class RequestHandler {
             e.printStackTrace();
         }
         Class<?> cmdClass = null;
-        if(map.get("queue").equals("controller-IN")){
-            cmdClass = CommandsMap.queryClass(map.get("method"), map.get("queue"));
+        if(map.get("queue").contains("controller")){
+            cmdClass = CommandsMapController.queryClass(map.get("method"), map.get("queue"));
         }
         else {
-            cmdClass = CommandsMapController.queryClass(map.get("method"), map.get("queue"));
+            cmdClass = CommandsMap.queryClass(map.get("method"), map.get("queue"));
         }
         Command c = null;
         try {
