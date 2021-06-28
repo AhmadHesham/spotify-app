@@ -26,7 +26,7 @@ public class RequestHandler {
         Class<?> cmdClass = null;
 
         System.out.println(map.get("queue"));
-        if (map.get("queue").equals("controller")) {
+        if (map.get("queue").equals("account-controller")) {
             System.out.println("hena walla fen?");
             cmdClass = CommandsMapController.queryClass(map.get("method"), map.get("queue"));
         } else {

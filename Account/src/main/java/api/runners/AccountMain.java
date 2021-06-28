@@ -1,6 +1,7 @@
 package api.runners;
 
 import api.commands.CommandsMap;
+import controller.CommandsMapController;
 import db.ArangoConfig;
 import db.PostgresConfig;
 import netty.NettyHTTPServer;
@@ -11,11 +12,12 @@ import threading.Pool;
 public class AccountMain {
     public static Pool pool = new Pool();
     public static RabbitMQConfig configIn = new RabbitMQConfig("account-IN");
-    public static RabbitMQConfig configInController = new RabbitMQConfig("controller-IN");
+    public static RabbitMQConfig configInController = new RabbitMQConfig("account-controller-IN");
 
     public static void main(String[] args) throws  Exception{
 
         CommandsMap.initialize();
+        CommandsMapController.initialize();
         Consumer consumer = new Consumer(configIn,true);
         Consumer consumerController = new Consumer(configInController,true);
 
