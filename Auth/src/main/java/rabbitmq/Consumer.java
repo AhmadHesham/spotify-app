@@ -52,6 +52,7 @@ public class Consumer extends RequestHandler {
                     Pool pool = null;
                     switch (config.getQueueName()){
                         case "auth-IN" : pool = AuthMain.pool; break;
+                        case "auth-controller-IN": pool = AuthMain.pool;break;
                     }
                     handleRequest(new String(body, StandardCharsets.UTF_8), pool, properties.getCorrelationId());
 //                    } catch (InterruptedException e) {

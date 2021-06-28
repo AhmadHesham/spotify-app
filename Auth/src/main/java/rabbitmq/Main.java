@@ -12,10 +12,10 @@ public class Main {
 
 
     public static void main(String[] args) throws  Exception{
-        Thread.sleep(30000);
+//        Thread.sleep(30000);
 //        RunningDBScript.main(null);
-        CommandsMap.initialize();
-        CommandsMapController.initialize();
+//        CommandsMap.initialize();
+//        CommandsMapController.initialize();
         AuthMain.main(null);
         NettyHTTPServer.main(null);
 

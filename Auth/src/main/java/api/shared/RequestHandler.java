@@ -3,6 +3,7 @@ package api.shared;
 import api.Command;
 import api.commands.CommandsMap;
 import api.utils.JSONMapper;
+import controller.CommandsMapController;
 import threading.Pool;
 
 import java.io.IOException;
@@ -21,7 +22,12 @@ public class RequestHandler {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Class<?> cmdClass = CommandsMap.queryClass(map.get("method"), map.get("queue"));
+        Class<?> cmdClass;
+        if (map.get("queue").contains("controller")) {
+            cmdClass = CommandsMapController.queryClass(map.get("method"), map.get("queue"));
+        } else {
+            cmdClass = CommandsMap.queryClass(map.get("method"), map.get("queue"));
+        }
         Command c = null;
         try {
             c = (Command) cmdClass.getDeclaredConstructor().newInstance();
