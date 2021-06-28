@@ -1,6 +1,5 @@
 package controller;
 
-
 import java.io.File;
 import java.util.Arrays;
 
@@ -23,18 +22,26 @@ public class Compile extends Command {
     @Override
     public void execute() throws Exception {
         try {
-            CompileHelper.getCompileHelper().compile(map.get("className"));
-            //System.out.println("Compiling Success State: " + success);
-            //File classFile = new File("Chat/src/main/java/api/commands/" + map.get("className") + ".class");
-            //File newClassFile = new File("Chat/src/main/resources/" + map.get("className") + ".class");
-            //classFile.renameTo(newClassFile);
-            //classFile.delete();
-            //File testFile = new File("Chat/src/main/resources/" + map.get("className") + ".class");
-            //System.out.println(testFile.exists());
-            //Class<?> currentClass = new CompileHelper().loadClass(map.get("className"));
-            //api.commands.CommandsMap.replace(map.get("className"), currentClass);
-            //System.out.println("Replace Status: Success");
+            String fileName = map.get("className");
+            String commandPrefix = "Chat/src/main/java/api/commands/";
+            JavaCompiler compiler = ToolProvider.getSystemJavaCompiler();
+            DiagnosticCollector<JavaFileObject> diagnostics = new DiagnosticCollector<>();
+            StandardJavaFileManager fileManager = compiler.getStandardFileManager(diagnostics, null, null);
+            Iterable<? extends JavaFileObject> compilationUnits = fileManager
+                    .getJavaFileObjectsFromStrings(Arrays.asList(commandPrefix + fileName + ".java"));
+            String[] optionsArr = {};
+            Iterable<String> options = Arrays.asList(optionsArr);
+            JavaCompiler.CompilationTask task = compiler.getTask(null, fileManager, null, options, null,
+                    compilationUnits);
+            boolean success = task.call();
+            System.out.println("Compilation Status: " + success);
 
+            new File(commandPrefix + fileName + ".class")
+                    .renameTo(new File("Chat/src/main/resources/" + fileName + ".class"));
+            Thread.sleep(2000);
+            Class<?> loadedClass = new CompileHelper().loadClass(fileName);
+            api.commands.CommandsMap.replace(fileName, loadedClass);
+            //CompileHelper.getCompileHelper().compile(map.get("className"));
         } catch (Exception e) {
             e.printStackTrace();
         }

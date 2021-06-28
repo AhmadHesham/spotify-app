@@ -18,8 +18,8 @@ public class CommandsMap {
             Enumeration<?> propNames = prop.propertyNames();
             while (propNames.hasMoreElements()) {
                 Object current = propNames.nextElement();
-                cmdMapChat.put(current.toString(),
-                        Class.forName("controller." + prop.get(current.toString()).toString()));
+                cmdMapChat.put(current.toString(), Class.forName("controller." + prop.get(current.toString()).toString()));
+
             }
             System.out.println("FROM CONTROLLER: " + cmdMapChat);
         } catch (Exception e) {
