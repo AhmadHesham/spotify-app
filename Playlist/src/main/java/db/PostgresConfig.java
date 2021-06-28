@@ -74,6 +74,20 @@ public class PostgresConfig {
                     else
                         setDBPort("5432");
                 }
+                if (lines.get(i).startsWith("init")) {
+                    matcher = pattern.matcher(lines.get(i));
+                    if (matcher.find())
+                        PostgresConfig.DB_INIT_CONNECTIONS = matcher.group(1);
+                    else
+                        PostgresConfig.DB_INIT_CONNECTIONS = "10";
+                }
+                if (lines.get(i).startsWith("max")) {
+                    matcher = pattern.matcher(lines.get(i));
+                    if (matcher.find())
+                        PostgresConfig.DB_MAX_CONNECTIONS = matcher.group(1);
+                    else
+                        PostgresConfig.DB_MAX_CONNECTIONS = "50";
+                }
             }
             System.out.println(DBHost);
             if (DBHost.equals("localhost")) {
@@ -91,6 +105,8 @@ public class PostgresConfig {
             setDBUser("postgres");
             setDBPort("5432");
             setDBURL("jdbc:postgresql://" + DBHost + ":" + DBPort + "/" + DBName);
+            PostgresConfig.DB_INIT_CONNECTIONS = "10";
+            PostgresConfig.DB_MAX_CONNECTIONS = "50";
         }
     }
 
