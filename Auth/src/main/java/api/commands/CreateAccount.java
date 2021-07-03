@@ -14,7 +14,7 @@ public class CreateAccount extends Command {
     @Override
     public void execute() {
         try {
-             dbConn = PostgresConfig.getDataSource().getConnection();
+            dbConn = PostgresConfig.getDataSource().getConnection();
             dbConn.setAutoCommit(false);
             func = dbConn.prepareStatement("SELECT * FROM get_account_username(?);");
             func.setString(1, map.get("username"));
@@ -22,7 +22,7 @@ public class CreateAccount extends Command {
             JSONObject result = new JSONObject();
             if (set.next()) {
                 result.put("error", "username already exists");
-                ResponseHandler.handleError(result.toString(), STATUSCODES.USERNAMEALREADYEXISTS, map.get("queue"), map.get("correlation_id"));                 
+                ResponseHandler.handleError(result.toString(), STATUSCODES.USERNAMEALREADYEXISTS, map.get("queue"), map.get("correlation_id"));
                 return;
             }
             func = dbConn.prepareStatement("SELECT * FROM get_account_email(?);");
@@ -31,7 +31,7 @@ public class CreateAccount extends Command {
             if (set.next()) {
                 result.put("error", "email already exists");
                 ResponseHandler.handleError(result.toString(), STATUSCODES.EMAILALREADYEXISTS, map.get("queue"), map.get("correlation_id"));
-                 
+
                 return;
             }
             proc = dbConn.prepareCall("call create_account(?,?,?,?,?,?,?);");
@@ -73,7 +73,7 @@ public class CreateAccount extends Command {
                         result.put("msg", "user created successfully");
                         ResponseHandler.handleResponse(result.toString(), map.get("queue"), map.get("correlation_id"));
                         dbConn.commit();
-                         
+
                     }
                 } catch (Exception e) {
                     dbConn.rollback();
@@ -100,11 +100,11 @@ public class CreateAccount extends Command {
                         result.put("msg", "artist created successfully");
                         ResponseHandler.handleResponse(result.toString(), map.get("queue"), map.get("correlation_id"));
                         dbConn.commit();
-                         
+
                     }
                     proc.close();
                 } catch (Exception e) {
-                    dbConn.rollback();                     
+                    dbConn.rollback();
 
                     e.printStackTrace();
                     result = new JSONObject();
@@ -118,8 +118,7 @@ public class CreateAccount extends Command {
             JSONObject result = new JSONObject();
             result.put("error", "An exception has occurred");
             ResponseHandler.handleError(result.toString(), STATUSCODES.UNKNOWN, map.get("queue"), map.get("correlation_id"));
-        }
-        finally {
+        } finally {
             try {
                 // proc.close();
                 // func.close();
