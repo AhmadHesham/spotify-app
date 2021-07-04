@@ -58,7 +58,7 @@ public class PlaySong extends Command {
                 }
                 public_id = public_id.substring(0, public_id.length() - 5);
 
-                String url = "http://http://138.68.99.91/" + public_id + "/" + bit_rate;
+                String url = "http://138.68.99.91/" + public_id + "/" + bit_rate;
 
                 String totalStreams = set.getString("total_streams");
                 int totalStreamsInt = Integer.parseInt(totalStreams) + 1;
@@ -117,7 +117,7 @@ public class PlaySong extends Command {
                 }
                 public_id = public_id.substring(0, public_id.length() - 5);
 
-                String url = "http://http://138.68.99.91/" + public_id + "/" + bit_rate;
+                String url = "http://138.68.99.91/" + public_id + "/" + bit_rate;
 
                 String totalStreams = set.getString("total_streams");
                 int totalStreamsInt = Integer.parseInt(totalStreams) + 1;
