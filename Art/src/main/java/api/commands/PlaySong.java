@@ -159,7 +159,7 @@ public class PlaySong extends Command {
 
                 ResponseHandler.handleResponse(result.toString(), map.get("queue"), map.get("correlation_id"));
 
-                addToHistory(genre, user_id, song_id, song_url, song_name);
+//                addToHistory(genre, user_id, song_id, song_url, song_name);
             } else {
                 ResponseHandler.handleError("Cannot find song", STATUSCODES.ENTITYNOTFOUND,
                         map.get("queue"), map.get("correlation_id"));
