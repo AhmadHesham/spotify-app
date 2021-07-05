@@ -89,7 +89,7 @@ services:
       - arangodb_go_net
       - redis_go_net
     volumes:
-    - /Users/mohamedsayed/Downloads:/var/lib/files/data
+    - /home/ubuntu/files:/var/lib/files/data
   playlist:
     build:
       # command: bundle exec rails s -p 3000 -e development -b '0.0.0.0'
