@@ -73,7 +73,7 @@ public class PlaySong extends Command {
 
                 song_id = map.get("song_id");
 
-                Redis.put(song_id,set.getString(4));
+//                Redis.put(song_id,set.getString(4));
 
                 genre = set.getString(2);
                 user_id = map.get("token_user_id");
@@ -133,7 +133,7 @@ public class PlaySong extends Command {
                 song_id = map.get("song_id");
 
                 if((totalStreamsInt/Main.elapsed()) > 0.01){
-                    Redis.put(song_id,set.getString(4));
+//                    Redis.put(song_id,set.getString(4));
                 }
 
                 genre = set.getString(2);
