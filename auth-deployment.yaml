@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: auth
+  name: auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: auth
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/arangodb_go_net: "true"
+        io.kompose.network/postgres_go_net: "true"
+        io.kompose.network/rabbitmq_go_net: "true"
+        io.kompose.network/redis_go_net: "true"
+        io.kompose.service: auth
+    spec:
+      containers:
+        - command:
+            - sh
+            - ./entrypoints/auth.sh
+          env:
+            - name: DB_DATABASE
+              value: sample
+            - name: DB_HOST
+              value: postgres
+            - name: DB_NAME
+              value: sample
+            - name: DB_PASSWORD
+              value: root
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_USERNAME
+              value: root
+          image: auth
+          name: auth
+          ports:
+            - containerPort: 8081
+            - containerPort: 3000
+          resources: {}
+      restartPolicy: Always
+status: {}

@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: art
+  name: art
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: art
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/arangodb_go_net: "true"
+        io.kompose.network/postgres_go_net: "true"
+        io.kompose.network/rabbitmq_go_net: "true"
+        io.kompose.network/redis_go_net: "true"
+        io.kompose.service: art
+    spec:
+      containers:
+        - command:
+            - sh
+            - ./entrypoints/art.sh
+          env:
+            - name: DB_DATABASE
+              value: sample
+            - name: DB_HOST
+              value: db
+            - name: DB_NAME
+              value: sample
+            - name: DB_PASSWORD
+              value: root
+            - name: DB_PORT
+              value: "3306"
+            - name: DB_USERNAME
+              value: root
+          image: art
+          name: art
+          ports:
+            - containerPort: 8082
+            - containerPort: 3000
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/lib/files/data
+              name: art-claim0
+      restartPolicy: Always
+      volumes:
+        - name: art-claim0
+          persistentVolumeClaim:
+            claimName: art-claim0
+status: {}

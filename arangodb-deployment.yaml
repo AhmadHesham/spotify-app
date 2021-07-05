@@ -1,0 +1,50 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.22.0 (955b78124)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: arangodb
+  name: arangodb
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: arangodb
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.22.0 (955b78124)
+      creationTimestamp: null
+      labels:
+        io.kompose.network/arangodb_go_net: "true"
+        io.kompose.service: arangodb
+    spec:
+      containers:
+        - env:
+            - name: ARANGO_ROOT_PASSWORD
+              value: rootpassword
+          image: arangodb:latest
+          name: arangodb
+          ports:
+            - containerPort: 8529
+          resources: {}
+          volumeMounts:
+            - mountPath: /var/lib/arangodb3
+              name: arangodb-data-container
+            - mountPath: /var/lib/arangodb3-apps
+              name: arangodb-apps-data-container
+      restartPolicy: Always
+      volumes:
+        - name: arangodb-data-container
+          persistentVolumeClaim:
+            claimName: arangodb-data-container
+        - name: arangodb-apps-data-container
+          persistentVolumeClaim:
+            claimName: arangodb-apps-data-container
+status: {}
