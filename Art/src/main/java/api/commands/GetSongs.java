@@ -10,12 +10,12 @@ public class GetSongs extends Command {
     @Override
     public void execute() throws Exception {
         try {
-             dbConn = PostgresConfig.getDataSource().getConnection();
+            dbConn = PostgresConfig.getDataSource().getConnection();
 
             func = dbConn.prepareStatement("SELECT * FROM get_songs();");
             set = func.executeQuery();
 
-
+            System.out.println("geh aslan");
             JSONObject result = new JSONObject();
             while (set.next()) {
                 JSONObject element = new JSONObject();

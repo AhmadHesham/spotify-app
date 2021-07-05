@@ -63,6 +63,9 @@ public class CommandsMap {
         }
 
         try {
+            System.out.println(cmd);
+            System.out.println(queue);
+            System.out.println(cmdMapArt);
             switch (queue) {
                 case "art":
                     return cmdMapArt.get(cmd);
@@ -70,6 +73,7 @@ public class CommandsMap {
                     return FOUROFOUR.class;
             }
         } catch (Exception e) {
+            System.out.println("");
             return FOUROFOUR.class;
         }
     

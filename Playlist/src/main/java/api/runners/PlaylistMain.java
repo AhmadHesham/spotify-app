@@ -1,5 +1,7 @@
 package api.runners;
 
+import api.commands.CommandsMap;
+import controller.CommandsMapController;
 import db.ArangoConfig;
 import db.PostgresConfig;
 import rabbitmq.Consumer;
@@ -12,6 +14,8 @@ public class PlaylistMain {
 
     public static void main(String[] args) throws  Exception{
 
+        CommandsMap.initialize();
+        CommandsMapController.initialize();
         Consumer consumer = new Consumer(configIn,true);
         try {
             PostgresConfig.readonfFile();
