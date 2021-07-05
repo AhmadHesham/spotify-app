@@ -58,7 +58,7 @@ public class CommandsMap {
 //    }
     
     public static Class<?> queryClass(String cmd, String queue) {
-        System.out.println(Redis.get("art-freeze").equals("true"));
+//        System.out.println(Redis.get("art-freeze").equals("true"));
         if(Redis.hasKey("art-freeze") && Redis.get("art-freeze").equals("true")){
             return FROZEN.class;
         }
